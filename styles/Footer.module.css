@@ -1,0 +1,15 @@
+.footer_wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 50px 20px;
+  background-color: rgb(26, 28, 31);
+  color: #fff;
+  line-height: 200%;
+  box-sizing: border-box;
+}
+
+.footer_text {
+  opacity: 0.5;
+}

@@ -1,0 +1,92 @@
+.header_wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: rgb(26, 28, 31);
+  color: rgb(170, 170, 170);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.logo {
+  height: 40px;
+  overflow: hidden;
+}
+
+.logo .rect1 {
+  display: inline-block;
+  width: 5px;
+  height: 100px;
+  background: #ffc933;
+  margin-right: 5px;
+  transform: translateY(10px);
+  transition: transform 0.2s linear 0s;
+}
+
+.logo .rect2 {
+  display: inline-block;
+  width: 5px;
+  height: 100px;
+  background: #ffc933;
+  margin-right: 5px;
+  transform: translateY(20px);
+  transition: transform 0.2s linear 0s;
+}
+
+.logo .rect3 {
+  display: inline-block;
+  width: 5px;
+  height: 100px;
+  background: #ffc933;
+  transform: translateY(5px);
+  transition: transform 0.2s linear 0s;
+}
+
+.logo:hover .rect1 {
+  transform: translateY(20px);
+}
+
+.logo:hover .rect2 {
+  transform: translateY(10px);
+}
+
+.logo:hover .rect3 {
+  transform: translateY(25px);
+}
+
+.header_menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}
+
+.header_menu li a {
+  color: #fff;
+  opacity: 0.5;
+}
+
+.header_menu li a:hover {
+  color: #fff;
+  opacity: 1;
+}
+
+.team_button {
+  padding: 5px 20px;
+  box-sizing: border-box;
+  background-color: transparent;
+  border: 1px solid #ffc933;
+  color: #ffc933;
+  cursor: pointer;
+}
+
+.team_button:hover {
+  color: rgb(26, 28, 31);
+  background-color: #ffc933;
+}

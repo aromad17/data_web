@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "@/styles/Index.module.css";
 import { FaLock, FaStar, FaRocket, FaPlus } from "react-icons/fa";
 import { ChangeEvent, useState } from "react";
-
+import Head from "next/head";
 export default function Home() {
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [projectName, setProjectName] = useState<string>("");
@@ -63,6 +63,12 @@ export default function Home() {
 
   return (
     <>
+      <Head>
+        <meta
+          http-equiv="Content-Security-Policy"
+          content="upgrade-insecure-requests"
+        />
+      </Head>
       <div className={styles.create_modal}>
         <form className={styles.create_form} onSubmit={onSubmit}>
           <fieldset>

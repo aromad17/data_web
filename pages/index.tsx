@@ -63,12 +63,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <meta
-          http-equiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-      </Head>
       <div className={styles.create_modal}>
         <form className={styles.create_form} onSubmit={onSubmit}>
           <fieldset>

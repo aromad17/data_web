@@ -4,6 +4,7 @@ import styles from "@/styles/Index.module.css";
 import { FaLock, FaStar, FaRocket, FaPlus } from "react-icons/fa";
 import { ChangeEvent, useState } from "react";
 import Head from "next/head";
+import axios from "axios";
 export default function Home() {
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [projectName, setProjectName] = useState<string>("");
@@ -40,12 +41,16 @@ export default function Home() {
 
     try {
       const formData = new FormData();
+      const config = {
+        projectName: projectName,
+        description: projectDescription,
+      };
+      const configString = JSON.stringify(config);
+      formData.append("projectConfig", configString);
+      formData.append("dataFile", selectedFile);
 
-      formData.append("projectName", projectName);
-      formData.append("description", projectDescription);
-      formData.append("projectData", selectedFile);
       const response = await fetch(
-        "http://3.36.0.92:9999/analysis/newProject",
+        "http://3.36.0.92:8888/analysis/newProject",
         {
           method: "POST",
           body: formData,
@@ -95,6 +100,7 @@ export default function Home() {
                 name="project_data"
                 type="file"
                 placeholder="Upload your Data File"
+                accept=".csv, .xlsx, .xls"
                 required
                 onChange={onFileChange} // 파일 선택 시 실행될 함수
               />

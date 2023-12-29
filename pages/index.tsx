@@ -2,14 +2,32 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Index.module.css";
 import { FaLock, FaStar, FaRocket, FaPlus } from "react-icons/fa";
-import { ChangeEvent, useState } from "react";
-import Head from "next/head";
+import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
+import { FaRegCircleXmark, FaAlignJustify } from "react-icons/fa6";
+
 export default function Home() {
   const [createModal, setCreateModal] = useState<boolean>(false);
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [selectedFile, setSelectedFile]: any = useState(null);
+  const [getProject, setGetProject]: any = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(
+        "http://3.36.0.92:8888/analysis/projectSearch"
+      );
+      setGetProject(response.data);
+      console.log(getProject);
+    } catch (error) {
+      console.error("에러사항: ", error);
+    }
+  };
 
   const onNewProject = () => {
     setCreateModal(true);
@@ -58,6 +76,7 @@ export default function Home() {
       );
       if (response.ok) {
         console.log("데이터가 성공적으로 전송되었습니다.");
+        setCreateModal(false);
       } else {
         console.error("데이터 전송에 실패했습니다.");
       }
@@ -68,51 +87,63 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.create_modal}>
-        <form className={styles.create_form} onSubmit={onSubmit}>
-          <fieldset>
-            <label>Create Project</label>
-            <div>
-              Project Name
-              <input
-                name="project_name"
-                type="text"
-                placeholder="Type Project Name"
-                value={projectName}
-                onChange={onChangeProjectName}
-                required
-              />
-            </div>
+      {createModal ? (
+        <div className={styles.create_modal}>
+          <form className={styles.create_form} onSubmit={onSubmit}>
+            <button
+              className={styles.close_btn}
+              onClick={() => {
+                setCreateModal(false);
+              }}
+            >
+              <FaRegCircleXmark />
+            </button>
+            <fieldset>
+              <label>Create Project</label>
+              <div>
+                Project Name
+                <input
+                  name="project_name"
+                  type="text"
+                  placeholder="Type Project Name"
+                  value={projectName}
+                  onChange={onChangeProjectName}
+                  required
+                />
+              </div>
 
-            <div>
-              Project Description
+              <div>
+                Project Description
+                <input
+                  name="project_description"
+                  type="text"
+                  placeholder="Text generation with transformers"
+                  value={projectDescription}
+                  onChange={onChangeProjectDescription}
+                />
+              </div>
+              <div>
+                Project Data
+                <input
+                  name="project_data"
+                  type="file"
+                  placeholder="Upload your Data File"
+                  accept=".csv, .xlsx, .xls"
+                  required
+                  onChange={onFileChange} // 파일 선택 시 실행될 함수
+                />
+              </div>
               <input
-                name="project_description"
-                type="text"
-                placeholder="Text generation with transformers"
-                value={projectDescription}
-                onChange={onChangeProjectDescription}
+                type="submit"
+                value="Create Project"
+                className={styles.submit_btn}
               />
-            </div>
-            <div>
-              Project Data
-              <input
-                name="project_data"
-                type="file"
-                placeholder="Upload your Data File"
-                accept=".csv, .xlsx, .xls"
-                required
-                onChange={onFileChange} // 파일 선택 시 실행될 함수
-              />
-            </div>
-            <input
-              type="submit"
-              value="Create Project"
-              className={styles.submit_btn}
-            />
-          </fieldset>
-        </form>
-      </div>
+            </fieldset>
+          </form>
+        </div>
+      ) : (
+        <></>
+      )}
       <div className={styles.nav_wrap}>
         <Link legacyBehavior href="/">
           <a className={styles.to_home}>HOME</a>
@@ -123,9 +154,24 @@ export default function Home() {
             <FaLock style={{ marginRight: "10px" }} />
             User/Project-name
           </dd>
-          <dd onClick={onNewProject}>
+          <dd>
             <FaPlus style={{ marginRight: "10px" }} />
-            Create New Project
+            <span onClick={onNewProject}>Create New Project</span>
+            {getProject != undefined ? (
+              getProject.map((userProject: any, idx: number) => (
+                <div
+                  key={idx}
+                  onClick={() => {
+                    console.log("asdasd");
+                  }}
+                >
+                  <FaAlignJustify style={{ marginRight: "10px" }} />
+                  {userProject.projectName}
+                </div>
+              ))
+            ) : (
+              <></>
+            )}
           </dd>
         </dl>
         <dl>

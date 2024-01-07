@@ -12,21 +12,34 @@ export default function Home() {
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [selectedFile, setSelectedFile]: any = useState(null);
   const [getProject, setGetProject]: any = useState([]);
+  const [projectInfo, setProjectInfo]: any = useState([]);
+  type userProject = {
+    description: string;
+    fileName: string;
+    filePath: string;
+    projectConfigid: number;
+    projectName: string;
+    userId: number;
+  };
 
   useEffect(() => {
-    getData();
+    getAllData();
   }, []);
 
-  const getData = async () => {
+  const getAllData = async () => {
     try {
       const response = await axios.get(
         "http://3.36.0.92:8888/analysis/projectSearch"
       );
       setGetProject(response.data);
-      console.log(getProject);
     } catch (error) {
       console.error("에러사항: ", error);
     }
+  };
+
+  const getData = (projectNum: number) => {
+    setProjectInfo();
+    setProjectInfo(getProject[projectNum]);
   };
 
   const onNewProject = () => {
@@ -158,11 +171,11 @@ export default function Home() {
             <FaPlus style={{ marginRight: "10px" }} />
             <span onClick={onNewProject}>Create New Project</span>
             {getProject != undefined ? (
-              getProject.map((userProject: any, idx: number) => (
+              getProject.map((userProject: userProject, idx: number) => (
                 <div
                   key={idx}
                   onClick={() => {
-                    console.log("asdasd");
+                    getData(idx);
                   }}
                 >
                   <FaAlignJustify style={{ marginRight: "10px" }} />
@@ -197,6 +210,7 @@ export default function Home() {
           </dd>
         </dl>
       </div>
+      <div className={styles.project_tab_closed}></div>
       <div className={styles.index_wrap}>
         <Link legacyBehavior href="https://kr.wandb.ai/">
           <a target="_blank">

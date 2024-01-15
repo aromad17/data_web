@@ -13,6 +13,9 @@ export default function Home() {
   const [selectedFile, setSelectedFile]: any = useState(null);
   const [getProject, setGetProject]: any = useState([]);
   const [projectInfo, setProjectInfo]: any = useState([]);
+  const [projectDetail, setProjectDetail] = useState<boolean>(false);
+
+  const [pickedOne, setPickedOne]: any = useState([]);
   type userProject = {
     description: string;
     fileName: string;
@@ -32,14 +35,25 @@ export default function Home() {
         "http://3.36.0.92:8888/analysis/projectSearch"
       );
       setGetProject(response.data);
+      console.log(getProject);
     } catch (error) {
       console.error("에러사항: ", error);
     }
   };
 
-  const getData = (projectNum: number) => {
-    setProjectInfo();
-    setProjectInfo(getProject[projectNum]);
+  const pickProject = async (num: number) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: "http://3.36.0.92:8888/analysis/dataList",
+        data: {
+          projectConfigId: num,
+        },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log("error : ", error);
+    }
   };
 
   const onNewProject = () => {
@@ -51,7 +65,6 @@ export default function Home() {
       target: { value },
     } = e;
     setProjectName(value);
-    console.log(projectName);
   };
 
   const onChangeProjectDescription = (e: ChangeEvent<HTMLInputElement>) => {
@@ -59,12 +72,10 @@ export default function Home() {
       target: { value },
     } = e;
     setProjectDescription(value);
-    console.log(projectDescription);
   };
 
   const onFileChange = (e: any) => {
     setSelectedFile(e.target.files[0]);
-    console.log(selectedFile);
   };
 
   const onSubmit = async (e: any) => {
@@ -168,14 +179,13 @@ export default function Home() {
             User/Project-name
           </dd>
           <dd>
-            <FaPlus style={{ marginRight: "10px" }} />
-            <span onClick={onNewProject}>Create New Project</span>
             {getProject != undefined ? (
               getProject.map((userProject: userProject, idx: number) => (
                 <div
                   key={idx}
                   onClick={() => {
-                    getData(idx);
+                    pickProject(userProject.projectConfigid);
+                    setProjectDetail(true);
                   }}
                 >
                   <FaAlignJustify style={{ marginRight: "10px" }} />
@@ -185,6 +195,10 @@ export default function Home() {
             ) : (
               <></>
             )}
+            <div>
+              <FaPlus style={{ marginRight: "10px" }} />
+              <span onClick={onNewProject}>Create New Project</span>
+            </div>
           </dd>
         </dl>
         <dl>
@@ -209,8 +223,9 @@ export default function Home() {
             Create team
           </dd>
         </dl>
+        <div className={styles.project_tab_closed}></div>
       </div>
-      <div className={styles.project_tab_closed}></div>
+
       <div className={styles.index_wrap}>
         <Link legacyBehavior href="https://kr.wandb.ai/">
           <a target="_blank">

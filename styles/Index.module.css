@@ -23,17 +23,19 @@
   text-decoration: none;
   padding: 20px 5px 20px 5px;
 }
+.nav_wrap dl {
+}
 
 .nav_wrap dl dt {
   padding: 20px 5px 20px 5px;
 }
 
 .nav_wrap dl dd {
-  display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px 5px 10px 5px;
+  padding: 0px 100px 0px 5px;
   font-size: 14px;
+  line-height: 20px;
   flex-wrap: wrap;
   cursor: pointer;
 }
@@ -44,6 +46,7 @@
   width: 100%;
   padding: 20px 5px;
   box-sizing: border-box;
+  line-height: 20px;
 }
 
 .create_modal {

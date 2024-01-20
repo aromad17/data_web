@@ -189,7 +189,7 @@ export default function Home() {
                   }}
                 >
                   <FaAlignJustify style={{ marginRight: "10px" }} />
-                  {userProject.projectName}
+                  <span>{userProject.projectName}</span>
                 </div>
               ))
             ) : (
@@ -223,7 +223,12 @@ export default function Home() {
             Create team
           </dd>
         </dl>
-        <div className={styles.project_tab_closed}></div>
+
+        <div
+          className={`${styles.project_tab_closed} ${
+            projectDetail ? styles.on : ""
+          }`}
+        ></div>
       </div>
 
       <div className={styles.index_wrap}>

@@ -107,13 +107,13 @@ export default function Home() {
   // my project 클릭했을떄
   /////////////////////////////////////////////////////////////
   // tab에있는데이터클릭
-  const getProjectData = async (dataId: number) => {
+  const getProjectData = async () => {
     try {
       const response = await axios({
         method: "get",
         url: "http://3.36.0.92:8888/analysis/dataPreview",
         params: {
-          dataId: dataId,
+          dataId: 13,
         },
       });
 
@@ -301,7 +301,8 @@ export default function Home() {
                         <div
                           className={styles.project_info}
                           onClick={() => {
-                            getProjectData(info.dataId);
+                            // getProjectData(info.dataId);
+                            getProjectData();
                           }}
                         >
                           - {info.fileName}

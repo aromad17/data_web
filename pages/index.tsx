@@ -1,10 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Index.module.css";
-import { FaLock, FaStar, FaRocket, FaPlus } from "react-icons/fa";
+import { FaLock, FaStar, FaRocket, FaPlus, FaFilter } from "react-icons/fa";
 import { ChangeEvent, useEffect, useState } from "react";
 import axios from "axios";
-import { FaRegCircleXmark, FaAlignJustify } from "react-icons/fa6";
+import {
+  FaRegCircleXmark,
+  FaAlignJustify,
+  FaAnglesLeft,
+  FaRectangleList,
+  FaArrowDownWideShort,
+} from "react-icons/fa6";
 
 export default function Home() {
   const [createModal, setCreateModal] = useState<boolean>(false);
@@ -25,59 +31,31 @@ export default function Home() {
     userId: number;
   };
 
+  type projectInfos = {
+    dataId: number;
+    fileName: string;
+    filePath: string;
+    projectConfigid: number;
+  };
+
   useEffect(() => {
     getAllData();
   }, []);
-
+  /////////////////////////////////////////////////////////////
+  //처음 Myproject 데이터 가져오기
   const getAllData = async () => {
     try {
       const response = await axios.get(
         "http://3.36.0.92:8888/analysis/projectSearch"
       );
       setGetProject(response.data);
-      console.log(getProject);
     } catch (error) {
       console.error("에러사항: ", error);
     }
   };
-
-  const pickProject = async (num: number) => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: "http://3.36.0.92:8888/analysis/dataList",
-        data: {
-          projectConfigId: num,
-        },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log("error : ", error);
-    }
-  };
-
-  const onNewProject = () => {
-    setCreateModal(true);
-  };
-
-  const onChangeProjectName = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-    setProjectName(value);
-  };
-
-  const onChangeProjectDescription = (e: ChangeEvent<HTMLInputElement>) => {
-    const {
-      target: { value },
-    } = e;
-    setProjectDescription(value);
-  };
-
-  const onFileChange = (e: any) => {
-    setSelectedFile(e.target.files[0]);
-  };
-
+  //처음 Myproject 데이터 가져오기
+  /////////////////////////////////////////////////////////////
+  // create New project
   const onSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -107,6 +85,65 @@ export default function Home() {
     } catch (error) {
       console.error("데이터 전송 중 오류가 발생했습니다:", error);
     }
+  };
+  // create project
+  /////////////////////////////////////////////////////////////
+  // my project 클릭했을떄
+  const pickProject = async (num: number) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: "http://3.36.0.92:8888/analysis/dataList",
+        params: {
+          projectConfigId: num,
+        },
+      });
+      setProjectInfo([response.data[0]]);
+      console.log(projectInfo);
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
+  // my project 클릭했을떄
+  /////////////////////////////////////////////////////////////
+  // tab에있는데이터클릭
+  const getProjectData = async (dataId: number) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: "http://3.36.0.92:8888/analysis/dataPreview",
+        params: {
+          dataId: dataId,
+        },
+      });
+
+      console.log(response);
+    } catch (error) {
+      console.log("error : ", error);
+    }
+  };
+  // tab에있는데이터클릭
+  /////////////////////////////////////////////////////////////
+  const onNewProject = () => {
+    setCreateModal(true);
+  };
+
+  const onChangeProjectName = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setProjectName(value);
+  };
+
+  const onChangeProjectDescription = (e: ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = e;
+    setProjectDescription(value);
+  };
+
+  const onFileChange = (e: any) => {
+    setSelectedFile(e.target.files[0]);
   };
 
   return (
@@ -223,18 +260,69 @@ export default function Home() {
             Create team
           </dd>
         </dl>
-
-        <div
-          className={`${styles.project_tab_closed} ${
-            projectDetail ? styles.on : ""
-          }`}
-        ></div>
       </div>
-
+      <div
+        className={`${styles.project_tab_closed} ${
+          projectDetail ? styles.on : ""
+        }`}
+      >
+        {projectDetail ? (
+          <>
+            <div className={styles.tab_wrap}>
+              <div className={styles.tab_con}>
+                <div className={styles.tab_header}>
+                  <div className={styles.tab_header_top}>
+                    <span>Runs</span>
+                    <div>
+                      <FaAnglesLeft
+                        onClick={() => {
+                          setProjectDetail(false);
+                          setProjectInfo([]);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.tab_header_mid}>
+                    <input type="text" placeholder="Search Runs"></input>
+                  </div>
+                  <div className={styles.tab_header_bottom}>
+                    <FaFilter />
+                    <FaRectangleList />
+                    <FaArrowDownWideShort />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.project_wrap}>
+                <div className={styles.project_name}>프로젝트 네임</div>
+                <div className={styles.project_file}>
+                  {projectInfo != undefined ? (
+                    projectInfo.map((info: projectInfos, idx: number) => (
+                      <div key={idx}>
+                        <div
+                          className={styles.project_info}
+                          onClick={() => {
+                            getProjectData(info.dataId);
+                          }}
+                        >
+                          - {info.fileName}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
       <div className={styles.index_wrap}>
         <Link legacyBehavior href="https://kr.wandb.ai/">
           <a target="_blank">
-            <img src="/images/aaa.jpg" />
+            <img src="/images/aaa.png" alt="프로필 이미지" />
           </a>
         </Link>
       </div>

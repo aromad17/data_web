@@ -142,7 +142,7 @@ body {
 .wrap {
   display: flex;
   flex-wrap: nowrap;
-  height: 100%;
+  margin-top: 60px;
 }
 .wrap::after {
   content: "";

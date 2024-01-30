@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import styles from "@/styles/Index.module.css";
 import { FaLock, FaStar, FaRocket, FaPlus, FaFilter } from "react-icons/fa";
@@ -17,11 +16,12 @@ export default function Home() {
   const [projectName, setProjectName] = useState<string>("");
   const [projectDescription, setProjectDescription] = useState<string>("");
   const [selectedFile, setSelectedFile]: any = useState(null);
-  const [getProject, setGetProject]: any = useState([]);
-  const [projectInfo, setProjectInfo]: any = useState([]);
+  const [getProject, setGetProject]: any = useState(undefined);
+  const [projectInfo, setProjectInfo]: any = useState(undefined);
   const [projectDetail, setProjectDetail] = useState<boolean>(false);
+  const [getDataName, setGetDataName]: any = useState(undefined);
+  const [getDataValue, setGetDataValue]: any = useState(undefined);
 
-  const [pickedOne, setPickedOne]: any = useState([]);
   type userProject = {
     description: string;
     fileName: string;
@@ -31,16 +31,17 @@ export default function Home() {
     userId: number;
   };
 
-  type projectInfos = {
-    dataId: number;
-    fileName: string;
-    filePath: string;
-    projectConfigid: number;
-  };
+  // type projectInfos = {
+  //   dataId: number;
+  //   fileName: string;
+  //   filePath: string;
+  //   projectConfigid: number;
+  // };
 
   useEffect(() => {
     getAllData();
   }, []);
+
   /////////////////////////////////////////////////////////////
   //처음 Myproject 데이터 가져오기
   const getAllData = async () => {
@@ -87,7 +88,9 @@ export default function Home() {
     }
   };
   // create project
+
   /////////////////////////////////////////////////////////////
+
   // my project 클릭했을떄
   const pickProject = async (num: number) => {
     try {
@@ -98,6 +101,8 @@ export default function Home() {
           projectConfigId: num,
         },
       });
+
+      // 상태 업데이트
       setProjectInfo([response.data[0]]);
       console.log(projectInfo);
     } catch (error) {
@@ -105,19 +110,50 @@ export default function Home() {
     }
   };
   // my project 클릭했을떄
+
   /////////////////////////////////////////////////////////////
+
   // tab에있는데이터클릭
   const getProjectData = async () => {
     try {
+      const pramDataId = projectInfo[0]["dataId"];
       const response = await axios({
         method: "get",
         url: "http://3.36.0.92:8888/analysis/dataPreview",
         params: {
-          dataId: 13,
+          dataId: pramDataId,
         },
       });
 
-      console.log(response);
+      // console.log(response);
+
+      const beforeSeper = response.data.Table.slice(0, 10);
+
+      const dataNames: string[] = [];
+      const dataValues: any[][] = [];
+
+      beforeSeper.forEach((item: any) => {
+        const valuesForItem: any[] = [];
+        Object.keys(item).forEach((key) => {
+          const value = item[key];
+          if (value !== null) {
+            dataNames.push(key);
+            valuesForItem.push(value);
+          } else {
+            // Replace null values with '--'
+            valuesForItem.push("--");
+          }
+        });
+        dataValues.push(valuesForItem);
+      });
+
+      // const uniqueDataNames = Array.from(new Set(dataNames));
+
+      setGetDataName(dataNames);
+      setGetDataValue(dataValues);
+
+      console.log(dataNames);
+      console.log(getDataValue);
     } catch (error) {
       console.log("error : ", error);
     }
@@ -277,7 +313,7 @@ export default function Home() {
                       <FaAnglesLeft
                         onClick={() => {
                           setProjectDetail(false);
-                          setProjectInfo([]);
+                          setProjectInfo(undefined);
                         }}
                       />
                     </div>
@@ -293,15 +329,23 @@ export default function Home() {
                 </div>
               </div>
               <div className={styles.project_wrap}>
-                <div className={styles.project_name}>프로젝트 네임</div>
                 <div className={styles.project_file}>
                   {projectInfo != undefined ? (
-                    projectInfo.map((info: projectInfos, idx: number) => (
+                    projectInfo.map((info: any, idx: number) => (
+                      <div className={styles.project_name} key={idx}>
+                        {info.projectName}
+                      </div>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+
+                  {projectInfo != undefined ? (
+                    projectInfo.map((info: any, idx: number) => (
                       <div key={idx}>
                         <div
                           className={styles.project_info}
                           onClick={() => {
-                            // getProjectData(info.dataId);
                             getProjectData();
                           }}
                         >
@@ -321,11 +365,39 @@ export default function Home() {
         )}
       </div>
       <div className={styles.index_wrap}>
-        <Link legacyBehavior href="https://kr.wandb.ai/">
-          <a target="_blank">
-            <img src="/images/aaa.png" alt="프로필 이미지" />
-          </a>
-        </Link>
+        <div className={styles.data_visual}>
+          <div className={styles.data_table}>
+            <table>
+              {/* <tr>
+                {getDataName != undefined ? (
+                  getDataName.map((name: string, idx: number) => (
+                    <th key={idx}>{name}</th>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </tr> */}
+              {/* {getDataValue != undefined ? (
+                getDataValue.map((value: string, idx: number) => (
+                  <tr>
+                    <td key={idx}>{value[0]}</td>
+                    <td key={idx}>{value[1]}</td>
+                    <td key={idx}>{value[2]}</td>
+                    <td key={idx}>{value[3]}</td>
+                    <td key={idx}>{value[4]}</td>
+                    <td key={idx}>{value[5]}</td>
+                    <td key={idx}>{value[6]}</td>
+                    <td key={idx}>{value[7]}</td>
+                    <td key={idx}>{value[8]}</td>
+                    <td key={idx}>{value[9]}</td>
+                  </tr>
+                ))
+              ) : (
+                <></>
+              )} */}
+            </table>
+          </div>
+        </div>
       </div>
     </>
   );

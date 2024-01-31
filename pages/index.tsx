@@ -125,11 +125,8 @@ export default function Home() {
         },
       });
 
-      // console.log(response);
-
       const beforeSeper = response.data.Table.slice(0, 10);
 
-      const dataNames: string[] = [];
       const dataValues: any[][] = [];
 
       beforeSeper.forEach((item: any) => {
@@ -137,23 +134,19 @@ export default function Home() {
         Object.keys(item).forEach((key) => {
           const value = item[key];
           if (value !== null) {
-            dataNames.push(key);
             valuesForItem.push(value);
           } else {
-            // Replace null values with '--'
             valuesForItem.push("--");
           }
         });
         dataValues.push(valuesForItem);
       });
 
-      // const uniqueDataNames = Array.from(new Set(dataNames));
-
-      setGetDataName(dataNames);
+      setGetDataName(response.data.Columns);
       setGetDataValue(dataValues);
-
-      console.log(dataNames);
+      console.log(getDataName);
       console.log(getDataValue);
+      console.log(response.data);
     } catch (error) {
       console.log("error : ", error);
     }
@@ -368,33 +361,32 @@ export default function Home() {
         <div className={styles.data_visual}>
           <div className={styles.data_table}>
             <table>
-              {/* <tr>
-                {getDataName != undefined ? (
-                  getDataName.map((name: string, idx: number) => (
-                    <th key={idx}>{name}</th>
-                  ))
+              <thead>
+                <tr>
+                  {getDataName != undefined ? (
+                    getDataName.map((name: string, idx: number) => (
+                      <th key={idx}>{name}</th>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {getDataValue !== undefined ? (
+                  getDataValue.map(
+                    (valueRow: (number | string)[], idx: number) => (
+                      <tr key={idx}>
+                        {valueRow.map((v: number | string, index: number) => (
+                          <td key={index}>{v}</td>
+                        ))}
+                      </tr>
+                    )
+                  )
                 ) : (
                   <></>
                 )}
-              </tr> */}
-              {/* {getDataValue != undefined ? (
-                getDataValue.map((value: string, idx: number) => (
-                  <tr>
-                    <td key={idx}>{value[0]}</td>
-                    <td key={idx}>{value[1]}</td>
-                    <td key={idx}>{value[2]}</td>
-                    <td key={idx}>{value[3]}</td>
-                    <td key={idx}>{value[4]}</td>
-                    <td key={idx}>{value[5]}</td>
-                    <td key={idx}>{value[6]}</td>
-                    <td key={idx}>{value[7]}</td>
-                    <td key={idx}>{value[8]}</td>
-                    <td key={idx}>{value[9]}</td>
-                  </tr>
-                ))
-              ) : (
-                <></>
-              )} */}
+              </tbody>
             </table>
           </div>
         </div>

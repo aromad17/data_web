@@ -125,28 +125,10 @@ export default function Home() {
         },
       });
 
-      const beforeSeper = response.data.Table.slice(0, 10);
-
-      const dataValues: any[][] = [];
-
-      beforeSeper.forEach((item: any) => {
-        const valuesForItem: any[] = [];
-        Object.keys(item).forEach((key) => {
-          const value = item[key];
-          if (value !== null) {
-            valuesForItem.push(value);
-          } else {
-            valuesForItem.push("--");
-          }
-        });
-        dataValues.push(valuesForItem);
-      });
-
       setGetDataName(response.data.Columns);
-      setGetDataValue(dataValues);
+      setGetDataValue(response.data.Table.slice(0, 10));
       console.log(getDataName);
       console.log(getDataValue);
-      console.log(response.data);
     } catch (error) {
       console.log("error : ", error);
     }
@@ -373,19 +355,17 @@ export default function Home() {
                 </tr>
               </thead>
               <tbody>
-                {getDataValue !== undefined ? (
-                  getDataValue.map(
-                    (valueRow: (number | string)[], idx: number) => (
-                      <tr key={idx}>
-                        {valueRow.map((v: number | string, index: number) => (
-                          <td key={index}>{v}</td>
+                {getDataValue &&
+                  getDataValue.map((row: any, index: number) => (
+                    <tr key={index}>
+                      {getDataName &&
+                        getDataName.map((column: string, index: number) => (
+                          <td key={index}>
+                            {row[column] !== null ? row[column] : "N/A"}
+                          </td>
                         ))}
-                      </tr>
-                    )
-                  )
-                ) : (
-                  <></>
-                )}
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

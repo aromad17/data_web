@@ -1,146 +1,84 @@
-.index_wrap {
-  width: 100%;
-  /* height: 100vh; */
-}
-
-.index_wrap img {
-  display: block;
-  height: 500px;
-  margin: 150px auto 0;
-}
-
-.nav_wrap {
-  position: relative;
-  display: block;
-  height: 100vh;
-  padding: 16px 0px 16px 12px;
+.wrap {
+  padding-top: 60px;
+  display: grid;
+  grid-template-rows: calc(100vh - 70px);
   box-sizing: border-box;
-  background-color: white;
-  border-right: 1px solid #d4d4d4;
-  z-index: 2;
 }
 
-.to_home {
-  display: block;
-  width: 100%;
-  color: #1b1b1b;
-  text-decoration: none;
-  padding: 20px 5px 20px 5px;
+.wrap > div {
 }
-.nav_wrap dl {
-}
-
-.nav_wrap dl dt {
-  padding: 20px 5px 20px 5px;
-}
-
-.nav_wrap dl dd {
-  width: 250px;
-  margin-bottom: 10px;
-  padding: 0px 0px 0px 5px;
-  font-size: 14px;
-  line-height: 20px;
-  cursor: pointer;
-}
-
-.nav_wrap dl dd div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 20px 5px;
-  box-sizing: border-box;
-  line-height: 20px;
-}
-
-.create_modal {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.create_form {
-  position: relative;
-  background-color: #f7f7f7;
-  border-radius: 20px;
-  padding: 30px 100px;
-}
-
-.create_form > fieldset {
+/* 큰틀 */
+.tab {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  height: 100%;
-}
-.create_form > fieldset > label {
-  font-size: 24px;
-  text-transform: uppercase;
-}
-.create_form > fieldset > div {
-  width: 90%;
-  line-height: 250%;
-}
-
-.create_form > fieldset > div > input {
-  display: block;
-  width: 100%;
-  padding: 10px 10px;
-}
-
-.submit_btn {
-  margin-top: 30px;
-  padding: 20px 0;
-  width: 100%;
-  text-transform: uppercase;
-  background-color: #ffc933;
-  border: none;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.close_btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: transparent;
-  border: none;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-}
-
-.close_btn > * {
-  width: 100%;
-  height: 100%;
-}
-
-.project_tab_closed {
-  padding: 0;
-  background-color: white;
-}
-
-.project_tab_closed.on {
-  padding: 0;
-  background-color: white;
+  padding: 20px 30px;
+  box-sizing: border-box;
   border-right: 1px solid #d4d4d4;
 }
+
+.sub_tab {
+  display: flex;
+  justify-content: center;
+  border-right: 1px solid #d4d4d4;
+}
+
+.contents {
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+}
+/* 큰틀 */
+
+/* tab내부 */
+.to_home {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 15px;
+  text-decoration: none;
+}
+
+.tab > dl {
+  font-size: 14px;
+}
+.tab > dl > dt {
+  line-height: 250%;
+  margin-bottom: 10px;
+}
+.tab > dl > dd {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.project_name {
+}
+
+.project_name > ul {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.project_name > ul > li {
+}
+
+/* tab내부 */
+
+/* subtab */
 
 .tab_wrap {
 }
 .tab_con {
+  width: 100%;
   border-bottom: 1px solid #d4d4d4;
 }
 
 .tab_header {
   display: flex;
   flex-direction: column;
-  width: 10vw;
   gap: 20px;
   padding: 20px 15px;
 }
@@ -200,16 +138,30 @@
   cursor: pointer;
   text-indent: 10px;
 }
+
+/* sub_tab */
+
+/* contnets{} */
 .data_visual {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.data_type {
+  padding: 20px;
+  margin-bottom: 5px;
+  border-radius: 10px 10px 0 0;
+  box-sizing: border-box;
+  background-color: rgba(255, 201, 51, 0.5);
 }
 
 .data_table {
   display: flex;
-  justify-content: center;
+  justify-content: start;
 }
 
 .data_table > table {
-  width: 90%;
+  width: 100%;
   border-radius: 5px;
   border-bottom: 3px solid #ffc933;
 }
@@ -218,7 +170,7 @@
 }
 
 .data_table > table > thead > tr > th {
-  padding: 15px;
+  padding: 15px 0;
   text-align: center;
   border-bottom: 3px solid #ffc933;
 }
@@ -237,3 +189,4 @@
 
 .data_table > table > tbody > tr :last-child {
 }
+/* contents */

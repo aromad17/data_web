@@ -361,12 +361,12 @@ export default function Home() {
         ) : (
           <></>
         )}
+        {getDataName && getDataValue != undefined ? (
+          <div className={styles.contents}>
+            <div className={styles.data_visual}>
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>TABLE</div>
 
-        <div className={styles.contents}>
-          <div className={styles.data_visual}>
-            <div className={styles.data_chart}>
-              <div className={styles.data_type}>TABLE</div>
-              {getDataName && getDataValue != undefined ? (
                 <>
                   <div className={styles.data_table}>
                     <table>
@@ -401,99 +401,99 @@ export default function Home() {
                     </table>
                   </div>
                 </>
-              ) : (
-                <></>
-              )}
-            </div>
-
-            <div className={styles.chart_frame}>
-              <div className={styles.data_chart}>
-                <div className={styles.data_type}>
-                  <div>CHART(Missing Value)</div>
-                  <div>
-                    <FaSistrix />
-                  </div>
-                </div>
-                {getDataName && getDataValue != undefined ? (
-                  <ChartComponent
-                    dataName={getDataName}
-                    getMissingValue={getMissingValue}
-                  />
-                ) : (
-                  <></>
-                )}
               </div>
 
-              <div className={styles.data_chart}>
-                <div className={styles.data_type}>
-                  <div>CHART(Missing Value)</div>
-                  <div>
-                    <FaSistrix />
+              <div className={styles.chart_frame}>
+                <div className={styles.data_chart}>
+                  <div className={styles.data_type}>
+                    <div>CHART(Missing Value)</div>
+                    <div>
+                      <FaSistrix />
+                    </div>
                   </div>
+                  {getDataName && getDataValue != undefined ? (
+                    <ChartComponent
+                      dataName={getDataName}
+                      getMissingValue={getMissingValue}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {getDataName && getDataValue != undefined ? (
-                  <ChartComponent
-                    dataName={getDataName}
-                    getMissingValue={getMissingValue}
-                  />
-                ) : (
-                  <></>
-                )}
-              </div>
 
-              <div className={styles.data_chart}>
-                <div className={styles.data_type}>
-                  <div>CHART(Missing Value)</div>
-                  <div>
-                    <FaSistrix />
+                <div className={styles.data_chart}>
+                  <div className={styles.data_type}>
+                    <div>CHART(Missing Value)</div>
+                    <div>
+                      <FaSistrix />
+                    </div>
                   </div>
+                  {getDataName && getDataValue != undefined ? (
+                    <ChartComponent
+                      dataName={getDataName}
+                      getMissingValue={getMissingValue}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {getDataName && getDataValue != undefined ? (
-                  <ChartComponent
-                    dataName={getDataName}
-                    getMissingValue={getMissingValue}
-                  />
-                ) : (
-                  <></>
-                )}
-              </div>
 
-              <div className={styles.data_chart}>
-                <div className={styles.data_type}>
-                  <div>CHART(Missing Value)</div>
-                  <div>
-                    <FaSistrix />
+                <div className={styles.data_chart}>
+                  <div className={styles.data_type}>
+                    <div>CHART(Missing Value)</div>
+                    <div>
+                      <FaSistrix />
+                    </div>
                   </div>
+                  {getDataName && getDataValue != undefined ? (
+                    <ChartComponent
+                      dataName={getDataName}
+                      getMissingValue={getMissingValue}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {getDataName && getDataValue != undefined ? (
-                  <ChartComponent
-                    dataName={getDataName}
-                    getMissingValue={getMissingValue}
-                  />
-                ) : (
-                  <></>
-                )}
-              </div>
 
-              <div className={styles.data_chart}>
-                <div className={styles.data_type}>
-                  <div>CHART(Missing Value)</div>
-                  <div>
-                    <FaSistrix />
+                <div className={styles.data_chart}>
+                  <div className={styles.data_type}>
+                    <div>CHART(Missing Value)</div>
+                    <div>
+                      <FaSistrix />
+                    </div>
                   </div>
+                  {getDataName && getDataValue != undefined ? (
+                    <ChartComponent
+                      dataName={getDataName}
+                      getMissingValue={getMissingValue}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {getDataName && getDataValue != undefined ? (
-                  <ChartComponent
-                    dataName={getDataName}
-                    getMissingValue={getMissingValue}
-                  />
-                ) : (
-                  <></>
-                )}
+
+                <div className={styles.data_chart}>
+                  <div className={styles.data_type}>
+                    <div>CHART(Missing Value)</div>
+                    <div>
+                      <FaSistrix />
+                    </div>
+                  </div>
+                  {getDataName && getDataValue != undefined ? (
+                    <ChartComponent
+                      dataName={getDataName}
+                      getMissingValue={getMissingValue}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

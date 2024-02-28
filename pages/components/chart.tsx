@@ -34,25 +34,50 @@ const options = {
   },
 };
 
-export default function ChartComponent(
-  { dataName }: { dataName: any },
-  dataValue: any
-) {
-  console.log(dataValue);
-  const dataValueArr = [];
+export default function ChartComponent({
+  dataName,
+  getMissingValue,
+}: {
+  dataName: any;
+  getMissingValue: any;
+}) {
+  console.log("mv : ", getMissingValue);
+  console.log(dataName);
 
   const labels = dataName;
+
+  const dataValues = labels.map((label: string) => {
+    const missing = getMissingValue[label] || 0;
+    const total = getMissingValue["all_counts"];
+    const notMissing = total - missing;
+    return [missing, notMissing];
+  });
 
   const data = {
     labels,
     datasets: [
       {
-        label: "값",
-        data: [0, 0, 3, 3, 5, 3, 3, 0, 0],
-        borderColor: "rgb(255, 99, 132)",
+        label: "비결측치 수",
+        data: dataValues.map((value: any) => value[1]),
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
+      },
+      {
+        label: "결측치 수",
+        data: dataValues.map((value: any) => value[0]),
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
+  };
+
+  const options = {
+    scales: {
+      x: {
+        stacked: true, // x축을 기준으로 바를 쌓음
+      },
+      y: {
+        stacked: true, // y축을 기준으로 바를 쌓음
+      },
+    },
   };
 
   return (

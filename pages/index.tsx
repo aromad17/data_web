@@ -10,6 +10,7 @@ import {
   FaAnglesLeft,
   FaRectangleList,
   FaArrowDownWideShort,
+  FaSistrix,
 } from "react-icons/fa6";
 import axios from "axios";
 import styles from "@/styles/Index.module.css";
@@ -26,6 +27,7 @@ export default function Home() {
   const [projectInfo, setProjectInfo]: any = useState(undefined);
   const [getDataName, setGetDataName]: any = useState(undefined);
   const [getDataValue, setGetDataValue]: any = useState(undefined);
+  const [getMissingValue, setGetMissingValue]: any = useState(undefined);
 
   useEffect(() => {
     getAllData();
@@ -132,7 +134,7 @@ export default function Home() {
           dataId: pramDataId,
         },
       });
-
+      setGetMissingValue(response.data.MissingValue);
       setGetDataName(response.data.Columns);
       setGetDataValue(response.data.Table.slice(0, 10));
     } catch (error) {
@@ -155,6 +157,20 @@ export default function Home() {
   //   });
   // }
   /////평균구하기
+  useEffect(() => {
+    const onZoom = (num: number) => {
+      const dataChartElements = document.querySelectorAll(".data_chart");
+
+      // Example: Apply a zoom class to the element based on the given num
+      dataChartElements.forEach((element, index) => {
+        if (index === num) {
+          element.classList.add("zoom");
+        } else {
+          element.classList.remove("zoom");
+        }
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -390,16 +406,91 @@ export default function Home() {
               )}
             </div>
 
-            <div className={styles.data_chart}>
-              <div className={styles.data_type}>CHART</div>
-              {getDataName && getDataValue != undefined ? (
-                // 다되면
-                // <ChartComponent dataName={getDataName} dataValue={평균값넣은배열}/>
-                //conponents -> chart.tsx로 이동...
-                <ChartComponent dataName={getDataName} />
-              ) : (
-                <></>
-              )}
+            <div className={styles.chart_frame}>
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>
+                  <div>CHART(Missing Value)</div>
+                  <div>
+                    <FaSistrix />
+                  </div>
+                </div>
+                {getDataName && getDataValue != undefined ? (
+                  <ChartComponent
+                    dataName={getDataName}
+                    getMissingValue={getMissingValue}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>
+                  <div>CHART(Missing Value)</div>
+                  <div>
+                    <FaSistrix />
+                  </div>
+                </div>
+                {getDataName && getDataValue != undefined ? (
+                  <ChartComponent
+                    dataName={getDataName}
+                    getMissingValue={getMissingValue}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>
+                  <div>CHART(Missing Value)</div>
+                  <div>
+                    <FaSistrix />
+                  </div>
+                </div>
+                {getDataName && getDataValue != undefined ? (
+                  <ChartComponent
+                    dataName={getDataName}
+                    getMissingValue={getMissingValue}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>
+                  <div>CHART(Missing Value)</div>
+                  <div>
+                    <FaSistrix />
+                  </div>
+                </div>
+                {getDataName && getDataValue != undefined ? (
+                  <ChartComponent
+                    dataName={getDataName}
+                    getMissingValue={getMissingValue}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
+
+              <div className={styles.data_chart}>
+                <div className={styles.data_type}>
+                  <div>CHART(Missing Value)</div>
+                  <div>
+                    <FaSistrix />
+                  </div>
+                </div>
+                {getDataName && getDataValue != undefined ? (
+                  <ChartComponent
+                    dataName={getDataName}
+                    getMissingValue={getMissingValue}
+                  />
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
           </div>
         </div>

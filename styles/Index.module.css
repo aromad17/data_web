@@ -216,6 +216,13 @@
   padding: 20px;
   box-sizing: border-box;
 }
+.chart_frame {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: 5%;
+  flex-wrap: wrap;
+}
 
 .data_type {
   padding: 20px;
@@ -225,9 +232,43 @@
   box-sizing: border-box;
   background-color: rgba(255, 201, 51, 0.5);
 }
+
+.chart_frame .data_type {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border-radius: 10px 10px 0 0;
+  box-sizing: border-box;
+  background-color: rgba(255, 201, 51, 0.5);
+}
+.chart_frame .data_type::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.chart_frame .data_type > div:first-child {
+  float: left;
+}
+
+.chart_frame .data_type > div:last-child {
+  float: right;
+  cursor: pointer;
+}
 .data_chart {
   margin-bottom: 30px;
 }
+
+.chart_frame > .data_chart {
+  width: 30%;
+  height: 30%;
+}
+
+.chart_frame > .data_chart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .data_table {
   display: flex;
   justify-content: start;
